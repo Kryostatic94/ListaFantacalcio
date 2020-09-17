@@ -13,3 +13,8 @@ It works for the standard teams:
 <br>
 
 You can add as many credits you want, and thanks to <a href="https://github.com/eKoopmans/html2pdf.js#license"><strong>html2pdf.js</strong></a> you can save your list as a PDF wherever you want.
+<br>
+<br>
+<br>
+<br>
+This is an exercise I've made just for training purposes, I'm still a student any suggestions would be really appreciated.
