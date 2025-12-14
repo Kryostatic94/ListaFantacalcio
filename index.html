@@ -1,612 +1,243 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
-  <head>
-    <title>Lista Fantacalcio</title>
-    <style>
-        *{
-            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            background-color:aliceblue;
-        }
-        h1{
-            border: 1px solid whitesmoke;
-            line-height: 2.5;
-            padding: 0 20px;
-            text-align: center;
-            color:black;
-        }
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestisci la tua squadra di Fantacalcio con un'interfaccia moderna e intuitiva">
+  <meta name="keywords" content="fantacalcio, fantasy football, calcio, italia">
+  <meta name="author" content="Fantacalcio App">
+  <title>Lista Fantacalcio - Gestisci la tua Squadra</title>
 
-        #aggiungicrediti{
-            /*le prime due righe mandano il bottone nel mezzo*/
-            margin:0 auto;
-            display: block;
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1>⚽ Lista Fantacalcio</h1>
+      <p>Gestisci la tua squadra con stile</p>
+    </header>
 
-            border: 0;
-            line-height: 2.5;
-            padding: 0 20px;
-            font-size: 1rem;
-            color: #fff;
-            text-shadow: 1px 1px 1px #000;
-            border-radius: 10px;
-            background-color: rgb(175, 204, 204);
-            
-        }
+    <!-- Credits Section -->
+    <section class="credits-section">
+      <div class="credits-container">
+        <div class="credits-display">
+          <div class="credit-item">
+            <div class="credit-label">Crediti Totali</div>
+            <div class="credit-value" id="credits-value">0</div>
+          </div>
+          <div class="credit-item">
+            <div class="credit-label">Spesi</div>
+            <div class="credit-value" id="spent-value">0</div>
+          </div>
+          <div class="credit-item">
+            <div class="credit-label">Rimanenti</div>
+            <div class="credit-value" id="remaining-value">0</div>
+          </div>
+        </div>
+        <div>
+          <button id="setup-credits-btn" class="btn btn-primary">
+            💰 Imposta Crediti
+          </button>
+        </div>
+      </div>
+    </section>
 
-        button{
-            margin:0 auto;
-            display: block;
+    <!-- Team Name Section -->
+    <section class="team-name-section hidden">
+      <div class="team-name" id="team-name-display"></div>
+    </section>
 
-            border: 0;
-            line-height: 2.5;
-            padding: 0 20px;
-            font-size: 1rem;
-            color: #fff;
-            text-shadow: 1px 1px 1px #000;
-            border-radius: 10px;
-            background-color: rgb(175, 204, 204);
-        }
+    <!-- Main Content -->
+    <main class="main-content">
+      <div id="sections-container">
+        <!-- Portieri -->
+        <section class="player-section" id="goalkeepers-section">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">GK</span>
+              Portieri
+            </div>
+            <div class="player-count">0/3</div>
+          </div>
+          <div class="players-grid">
+            <div class="empty-state">
+              <div class="empty-state-icon">⚽</div>
+              <p class="empty-state-text">Nessun giocatore aggiunto</p>
+            </div>
+          </div>
+          <button class="btn btn-primary add-player-btn">+ Aggiungi Portiere</button>
+        </section>
 
-        #valuta,#crediti{
-            font-weight:bolder;
-            text-align: center;
-            font-size: 20px;
-            color: rgb(190, 18, 18);
-        }
-        
-        p,div{
-            width: 100%;
-        }
+        <!-- Difensori -->
+        <section class="player-section" id="defenders-section">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">DF</span>
+              Difensori
+            </div>
+            <div class="player-count">0/8</div>
+          </div>
+          <div class="players-grid">
+            <div class="empty-state">
+              <div class="empty-state-icon">⚽</div>
+              <p class="empty-state-text">Nessun giocatore aggiunto</p>
+            </div>
+          </div>
+          <button class="btn btn-primary add-player-btn">+ Aggiungi Difensore</button>
+        </section>
 
-        #modifica{
-            float: right;
-            margin-right: 2px;
-        }
+        <!-- Centrocampisti -->
+        <section class="player-section" id="midfielders-section">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">CC</span>
+              Centrocampisti
+            </div>
+            <div class="player-count">0/8</div>
+          </div>
+          <div class="players-grid">
+            <div class="empty-state">
+              <div class="empty-state-icon">⚽</div>
+              <p class="empty-state-text">Nessun giocatore aggiunto</p>
+            </div>
+          </div>
+          <button class="btn btn-primary add-player-btn">+ Aggiungi Centrocampista</button>
+        </section>
 
-        #nomesquad{
-            font-weight:bolder;
-            font-size: 20px;
-            text-align: center;
-        }
+        <!-- Attaccanti -->
+        <section class="player-section" id="strikers-section">
+          <div class="section-header">
+            <div class="section-title">
+              <span class="section-icon">AT</span>
+              Attaccanti
+            </div>
+            <div class="player-count">0/6</div>
+          </div>
+          <div class="players-grid">
+            <div class="empty-state">
+              <div class="empty-state-icon">⚽</div>
+              <p class="empty-state-text">Nessun giocatore aggiunto</p>
+            </div>
+          </div>
+          <button class="btn btn-primary add-player-btn">+ Aggiungi Attaccante</button>
+        </section>
+      </div>
+    </main>
 
-        #addNomebott{
-            margin-bottom: 10px;
-        }
-
-    </style>
-  </head>
-  <body id="stampatutto">
-    <h1>Lista Fantacalcio</h1>
-    <br>
-    <div id="sottotitolo">
-        <button id="aggiungicrediti" type="button">Aggiungi crediti</button>
+    <!-- Actions Bar -->
+    <div class="actions-bar">
+      <button id="setup-team-name-btn" class="btn btn-secondary">
+        ✏️ Nome Squadra
+      </button>
+      <button id="save-btn" class="btn btn-success">
+        💾 Salva
+      </button>
+      <button id="export-pdf-btn" class="btn btn-primary">
+        📄 Esporta PDF
+      </button>
+      <button id="reset-btn" class="btn btn-danger">
+        🔄 Reset
+      </button>
     </div>
-    <hr>
-    <div id="liste">
+  </div>
 
+  <!-- Modal: Setup Credits -->
+  <div id="credits-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Imposta Crediti</h2>
+      </div>
+      <form id="credits-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="credits-input" class="form-label">Crediti Disponibili</label>
+            <input
+              type="number"
+              id="credits-input"
+              class="form-input"
+              placeholder="Es. 500"
+              min="1"
+              required
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancel-credits" class="btn btn-secondary">Annulla</button>
+          <button type="submit" class="btn btn-primary">Conferma</button>
+        </div>
+      </form>
     </div>
-    <div id="listaportieri">
+  </div>
 
+  <!-- Modal: Add Player -->
+  <div id="add-player-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="add-player-modal-title">Aggiungi Giocatore</h2>
+      </div>
+      <form id="add-player-form">
+        <div class="modal-body">
+          <input type="hidden" id="player-role-input">
+          <div class="form-group">
+            <label for="player-name-input" class="form-label">Nome Giocatore</label>
+            <input
+              type="text"
+              id="player-name-input"
+              class="form-input"
+              placeholder="Es. Cristiano Ronaldo"
+              required
+            >
+          </div>
+          <div class="form-group">
+            <label for="player-cost-input" class="form-label">Costo (Crediti)</label>
+            <input
+              type="number"
+              id="player-cost-input"
+              class="form-input"
+              placeholder="Es. 50"
+              min="1"
+              required
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancel-add-player" class="btn btn-secondary">Annulla</button>
+          <button type="submit" class="btn btn-primary">Aggiungi</button>
+        </div>
+      </form>
     </div>
-    <div id="listadifensori">
+  </div>
 
+  <!-- Modal: Team Name -->
+  <div id="team-name-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title">Nome della Squadra</h2>
+      </div>
+      <form id="team-name-form">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="team-name-input" class="form-label">Nome Squadra</label>
+            <input
+              type="text"
+              id="team-name-input"
+              class="form-input"
+              placeholder="Es. I Campioni"
+              required
+            >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" id="cancel-team-name" class="btn btn-secondary">Annulla</button>
+          <button type="submit" class="btn btn-primary">Conferma</button>
+        </div>
+      </form>
     </div>
-    <div id="listacentrocampisti">
+  </div>
 
-    </div>
-    <div id="listaattaccanti">
-
-    </div>
-    <div id="addNome">
-
-    </div>
-
-  </body>
-  <script src="html2pdf/html2pdf.bundle.min.js"></script>
-
-  <script>
-      //INIZIALIZZAZIONE
-     let elm=document.querySelector('#aggiungicrediti')
-     elm.onclick=function(){
-         var i=prompt("Quanti crediti vuoi aggiungere?")
-         if(parseInt(i)<0|| i===null || i===""){
-             return
-         }else{
-            //ricordati di sostituire il bottone aggiungicrediti sennò bug dei crediti stampati a rota
-            let hr=document.createElement("hr")
-            let li=document.getElementById('liste')
-            let sotto=document.getElementById('sottotitolo')
-            let pq=document.createElement("p")
-            pq.id="valuta"
-            pq.innerText="Crediti"
-            var p=document.createElement("p")
-            p.id="crediti"
-            p.innerText=i
-            sotto.prepend(p)
-            sotto.prepend(pq)
-            sotto.prepend(hr)
-            sotto.removeChild(elm)
-            }
-            //INSERIMENTO PORTIERI
-            var li2=document.getElementById('listaportieri')
-            let bt1=document.createElement("button")
-            bt1.id="addPortieri"
-            bt1.innerText="Aggiungi Portiere"
-            li2.appendChild(bt1)
-            //BOTTONE PORTIERI
-            bt1.onclick=function(){
-                var i2=prompt("Aggiungi un giocatore")
-                if(i2===null || i2===""){
-                    alert("Nome non valido,riprovare.")
-                    return
-                }
-                let p2=document.createElement("p")
-                var i3=prompt("Quanto lo hai pagato?")
-                if(parseInt(i3)==1){
-                    p2.innerText=`${i2}                         
-                    Costo: ${i3} Credito`
-                }else if(parseInt(i3)>1){
-                    p2.innerText=`${i2}                         
-                    Costo: ${i3} Crediti`
-                }else{
-                    alert("Attenzione! I Crediti non possono essere ne negativi ne uguali a zero")
-                    return
-                }
-                var differenza=parseInt(i)-parseInt(i3)
-                var flag = document.getElementById('portiere')
-                if(differenza <0 || i3===null || i3===""|| i3.length<=0 || parseInt(i)<parseInt(i3)){
-                    alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                    return
-                }else{
-                    if(flag===null){
-                        li2.appendChild(p2)
-                        p.innerText=parseInt(i)-parseInt(i3)
-                        p2.id="portiere"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p2.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li2.removeChild(p2)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }else{
-                        li2.appendChild(p2)
-                        p.innerText-=parseInt(i3)
-                        if(parseInt(p.innerText)<0){
-                            alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            li2.removeChild(p2)
-                            return
-                        }
-                        p2.id="portiere"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p2.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li2.removeChild(p2)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                        let flag2=document.querySelectorAll('[id=portiere]').length
-                        var fatto=document.createElement("button")
-                        fatto.id="fatto"
-                        fatto.innerText= "Fatto!"
-                        if(flag2>=3){
-                            if(document.querySelectorAll('[id=fatto]').length>=1){
-                                const removeElements = (elms) => elms.forEach(el => el.remove())
-                                let rimozione=removeElements(document.querySelectorAll("#fatto"))
-                            }
-                            li2.appendChild(fatto)
-                            fatto.onclick=function(){
-                            let y=confirm("Sei sicuro di aver completato? Una volta premuto 'Ok' il cambiamento sarà irreversibile")
-                                if(y){
-                                    let flag3=document.querySelectorAll('[id=portiere]').length
-                                    if(flag3>=3){
-                                        let h2=document.createElement("h2")
-                                        let br=document.createElement("br")
-                                        let hr2=document.createElement("hr")
-                                        h2.innerText="Lista Portieri"
-                                        li2.prepend(h2)
-                                        li2.removeChild(bt1)
-                                        li2.removeChild(fatto)
-                                        const removeElements = (elms) => elms.forEach(el => el.remove())
-                                        let rimozione=removeElements(document.querySelectorAll("#modifica"))
-                                        li2.appendChild(hr2)
-                                        li3.appendChild(bt2)
-                                        i=parseInt(p.innerHTML)
-                                    }else{
-                                        alert("Attenzione! Inserire almeno 3 portieri")
-                                        li2.removeChild(fatto)
-                                        return
-                                        }
-                                }else{
-                                    return
-                                }
-                            return i
-                            }
-                        }
-                    }
-                }
-            }
-            //BOTTONE DIFENSORI
-            var bt2=document.createElement("button")
-            bt2.id="addDifensori"
-            var li3=document.getElementById('listadifensori')
-            bt2.innerText="Aggiungi Difensore"
-            bt2.onclick=function(){ 
-                var i2=prompt("Aggiungi un giocatore")
-                if(i2===null || i2===""){
-                    alert("Nome non valido,riprovare.")
-                    return
-                }
-                let p3=document.createElement("p")
-                var i3=prompt("Quanto lo hai pagato?")
-                if(parseInt(i3)==1){
-                    p3.innerText=`${i2}                         
-                    Costo: ${i3} Credito`
-                }else if(parseInt(i3)>1){
-                    p3.innerText=`${i2}                         
-                    Costo: ${i3} Crediti`
-                }else{
-                    alert("Attenzione! I Crediti non possono essere ne negativi ne uguali a zero")
-                    return
-                }
-                var differenza=parseInt(i)-parseInt(i3)
-                var flag = document.getElementById('difensori')
-                if(differenza <0 || i3===null || i3===""|| i3.length<=0 || parseInt(i)<parseInt(i3)){
-                    alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                    return
-                }else{
-                    if(flag===null){
-                        li3.appendChild(p3)
-                        p.innerText=parseInt(i)-parseInt(i3)
-                        p3.id="difensori"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p3.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li3.removeChild(p3)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }else{
-                        li3.appendChild(p3)
-                        p.innerText-=parseInt(i3)
-                        if(parseInt(p.innerText)<0){
-                            alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            li3.removeChild(p3)
-                            return
-                        }
-                        p3.id="difensori"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p3.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li3.removeChild(p3)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }
-                        let flag2=document.querySelectorAll('[id=difensori').length
-                        var fatto=document.createElement("button")
-                        fatto.id="fatto"
-                        fatto.innerText= "Fatto!"
-                        if(flag2>=8){
-                            if(document.querySelectorAll('[id=fatto]').length>=1){
-                                const removeElements = (elms) => elms.forEach(el => el.remove())
-                                let rimozione=removeElements(document.querySelectorAll("#fatto"))
-                            }
-                            li3.appendChild(fatto)
-                            fatto.onclick=function(){
-                            let y=confirm("Sei sicuro di aver completato? Una volta premuto 'Ok' il cambiamento sarà irreversibile")
-                                if(y){
-                                    let flag3=document.querySelectorAll('[id=difensori]').length
-                                    if(flag3>=8){
-                                        let h2=document.createElement("h2")
-                                        let br=document.createElement("br")
-                                        let hr2=document.createElement("hr")
-                                        h2.innerText="Lista Difensori"
-                                        li3.prepend(h2)
-                                        li3.removeChild(bt2)
-                                        li3.removeChild(fatto)
-                                        const removeElements = (elms) => elms.forEach(el => el.remove())
-                                        let rimozione=removeElements(document.querySelectorAll("#modifica"))
-                                        li3.appendChild(hr2)
-                                        li4.appendChild(bt3)
-                                        i=parseInt(p.innerHTML)
-                                    }else{
-                                        alert("Attenzione! Inserire 8 difensori")
-                                        li3.removeChild(fatto)
-                                        return
-                                        }
-                                }else{
-                                    return
-                                }
-                            return i
-                            }
-                        }
-                }
-            }
-            //BOTTONE CENTROCAMPISTI
-            var bt3=document.createElement("button")
-            bt3.id="addCentrocampisti"
-            var li4=document.getElementById('listacentrocampisti')
-            bt3.innerText="Aggiungi Centrocampista"
-            bt3.onclick=function(){ 
-                var i2=prompt("Aggiungi un giocatore")
-                if(i2===null || i2===""){
-                    alert("Nome non valido,riprovare.")
-                    return
-                }
-                let p4=document.createElement("p")
-                var i3=prompt("Quanto lo hai pagato?")
-                if(parseInt(i3)==1){
-                    p4.innerText=`${i2}                         
-                    Costo: ${i3} Credito`
-                }else if(parseInt(i3)>1){
-                    p4.innerText=`${i2}                         
-                    Costo: ${i3} Crediti`
-                }else{
-                    alert("Attenzione! I Crediti non possono essere ne negativi ne uguali a zero")
-                    return
-                }
-                var differenza=parseInt(i)-parseInt(i3)
-                var flag = document.getElementById('centrocampisti')
-                if(differenza <0 || i3===null || i3===""|| i3.length<=0 || parseInt(i)<parseInt(i3)){
-                    alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                    return
-                }else{
-                    if(flag===null){
-                        li4.appendChild(p4)
-                        p.innerText=parseInt(i)-parseInt(i3)
-                        p4.id="centrocampisti"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p4.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li4.removeChild(p4)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }else{
-                        li4.appendChild(p4)
-                        p.innerText-=parseInt(i3)
-                        if(parseInt(p.innerText)<0){
-                            alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            li4.removeChild(p4)
-                            return
-                        }
-                        p4.id="centrocampisti"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p4.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li4.removeChild(p4)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }
-                        let flag2=document.querySelectorAll('[id=centrocampisti').length
-                        var fatto=document.createElement("button")
-                        fatto.id="fatto"
-                        fatto.innerText= "Fatto!"
-                        if(flag2>=8){
-                            if(document.querySelectorAll('[id=fatto]').length>=1){
-                                const removeElements = (elms) => elms.forEach(el => el.remove())
-                                let rimozione=removeElements(document.querySelectorAll("#fatto"))
-                            }
-                            li4.appendChild(fatto)
-                            fatto.onclick=function(){
-                            let y=confirm("Sei sicuro di aver completato? Una volta premuto 'Ok' il cambiamento sarà irreversibile")
-                                if(y){
-                                    let flag3=document.querySelectorAll('[id=centrocampisti]').length
-                                    if(flag3>=8){
-                                        let h2=document.createElement("h2")
-                                        let br=document.createElement("br")
-                                        let hr2=document.createElement("hr")
-                                        h2.innerText="Lista Centrocampisti"
-                                        li4.prepend(h2)
-                                        li4.removeChild(bt3)
-                                        li4.removeChild(fatto)
-                                        const removeElements = (elms) => elms.forEach(el => el.remove())
-                                        let rimozione=removeElements(document.querySelectorAll("#modifica"))
-                                        li4.appendChild(hr2)
-                                        li5.appendChild(bt4)
-                                        i=parseInt(p.innerHTML)
-                                    }else{
-                                        alert("Attenzione! Inserire 8 centrocampisti")
-                                        li4.removeChild(fatto)
-                                        return
-                                        }
-                                }else{
-                                    return
-                                }
-                            return i
-                            }
-                        }
-                }
-            }
-            //BOTTONE ATTACCANTI    
-            var bt4=document.createElement("button")
-            bt4.id="addAttacanti"
-            var li5=document.getElementById('listaattaccanti')
-            bt4.innerText="Aggiungi Attaccante"
-            bt4.onclick=function(){ 
-                var i2=prompt("Aggiungi un giocatore")
-                if(i2===null || i2===""){
-                    alert("Nome non valido,riprovare.")
-                    return
-                }
-                let p5=document.createElement("p")
-                var i3=prompt("Quanto lo hai pagato?")
-                if(parseInt(i3)==1){
-                    p5.innerText=`${i2}                         
-                    Costo: ${i3} Credito`
-                }else if(parseInt(i3)>1){
-                    p5.innerText=`${i2}                         
-                    Costo: ${i3} Crediti`
-                }else{
-                    alert("Attenzione! I Crediti non possono essere ne negativi ne uguali a zero")
-                    return
-                }
-                var differenza=parseInt(i)-parseInt(i3)
-                var flag = document.getElementById('attaccanti')
-                if(differenza <0 || i3===null || i3===""|| i3.length<=0 || parseInt(i)<parseInt(i3)){
-                    alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                    return
-                }else{
-                    if(flag===null){
-                        li5.appendChild(p5)
-                        p.innerText=parseInt(i)-parseInt(i3)
-                        p5.id="attaccanti"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p5.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li5.removeChild(p5)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }else{
-                        li5.appendChild(p5)
-                        p.innerText-=parseInt(i3)
-                        if(parseInt(p.innerText)<0){
-                            alert("Attenzione! Crediti non sufficienti, non hai inserito niente o hai inserito del testo")
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            li5.removeChild(p5)
-                            return
-                        }
-                        p5.id="attaccanti"
-                        var btnx4=document.createElement("button")
-                        btnx4.innerText= "Elimina"
-                        btnx4.id="modifica"
-                        p5.appendChild(btnx4)
-                        btnx4.onclick=function(){
-                            let x=confirm("Attenzione! Stai per rimuovere il giocatore")
-                            if(!x){
-                                return
-                            }else{
-                            li5.removeChild(p5)
-                            p.innerText=parseInt(p.innerText)+parseInt(i3)
-                            }
-                        }
-                    }
-                        let flag2=document.querySelectorAll('[id=attaccanti').length
-                        var fatto=document.createElement("button")
-                        fatto.id="fatto"
-                        fatto.innerText= "Fatto!"
-                        if(flag2>=6){
-                            if(document.querySelectorAll('[id=fatto]').length>=1){
-                                const removeElements = (elms) => elms.forEach(el => el.remove())
-                                let rimozione=removeElements(document.querySelectorAll("#fatto"))
-                            }
-                            li5.appendChild(fatto)
-                            fatto.onclick=function(){
-                            let y=confirm("Sei sicuro di aver completato? Una volta premuto 'Ok' il cambiamento sarà irreversibile")
-                                if(y){
-                                    let flag3=document.querySelectorAll('[id=attaccanti]').length
-                                    if(flag3>=6){
-                                        let h2=document.createElement("h2")
-                                        let br=document.createElement("br")
-                                        let hr2=document.createElement("hr")
-                                        h2.innerText="Lista Attaccanti"
-                                        li5.prepend(h2)
-                                        li5.removeChild(bt4)
-                                        li5.removeChild(fatto)
-                                        const removeElements = (elms) => elms.forEach(el => el.remove())
-                                        let rimozione=removeElements(document.querySelectorAll("#modifica"))
-                                        li5.appendChild(hr2)
-                                        li6.appendChild(bt6)
-                                        li6.appendChild(bt5)
-                                        i=parseInt(p.innerHTML)
-                                    }else{
-                                        alert("Attenzione! Inserire 6 attaccanti")
-                                        li5.removeChild(fatto)
-                                        return
-                                        }
-                                }else{
-                                    return
-                                }
-                            return i
-                            }
-                        }
-                }
-            }
-            //stampa PDF
-            var li6=document.getElementById('addNome')
-            var bt6=document.createElement("button")
-            bt6.id="addNomebott"
-            bt6.innerText="Aggiungi Aggiungi Nome della Squadra"
-            var bt5=document.createElement("button")
-            bt5.id="stampa"
-            bt5.innerText="Stampa la tua squadra in PDF"
-            bt6.onclick=function(){
-                var nome=prompt("Aggiungi Nome della squadra")
-                let y=confirm("Sei sicuro di aver completato? Una volta premuto 'Ok' il cambiamento sarà irreversibile")
-                if(y){
-                    let p6=document.createElement("p")
-                    p6.id="nomesquad"
-                    let sotto=document.getElementById('sottotitolo')
-                    p6.innerText=`Nome della Squadra: ${nome}`
-                    sotto.appendChild(p6)
-                    li6.removeChild(bt6)
-                }else{
-                    return
-                }
-            }
-            var element = document.getElementById('stampatutto')
-            bt5.onclick=function(){
-                let x=confirm("Confermi il download?")
-                    if(!x){
-                        return
-                    }else{
-                        //var element = document.getElementById('element-to-print');
-                        var opt = {
-                                margin: 0.2,
-                                filename:`Formazione.pdf`,
-                                image:{ type: 'jpeg', quality: 0.98 },
-                                html2canvas:{ scale: 2 },
-                                jsPDF:{ unit: 'in', format: 'letter', orientation: 'portrait' }
-                            };
-                        html2pdf(element, opt);
-                    }
-            }
-        }
-  </script>
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
 </html>
